@@ -1,3 +1,3 @@
 # Creatine
 
-When you're tired our from ```curl```ing, creatine will help you recover.
+When you're tired our from ```cURL```ing, creatine will help you recover.
