@@ -2,6 +2,7 @@ package main
 
 import (
 	"Creatine/pkg/job"
+	"Creatine/pkg/fileParser"
 	"flag"
 	"fmt"
 	"net/url"
@@ -14,33 +15,41 @@ func main() {
 	printToConsole := flag.Bool("pc", true, "Print the response to the console. Default true.")
 
 	var method *string
+    var fileName *string
 
 	method = flag.String("m", "GET", "Used to specify the http request method.\n")
+    fileName = flag.String("f", "", "Provide a file to construct a request from.\n")
 
 	flag.Parse()
+
+    if len(*fileName) > 0 {
+        fmt.Printf("entered this if statement with file name: %s\n", *fileName)
+        fileParser.ParseFile(*fileName)
+        return
+    }
 
 	*method = strings.ToUpper(*method)
 
 	switch *method {
 	case "GET":
 		fmt.Println("GET method requested.")
-        fmt.Println("There's nothing here yet m8, get to it")
+		fmt.Println("There's nothing here yet m8, get to it")
 		break
 	case "POST":
 		fmt.Println("POST method requested.")
-        fmt.Println("There's nothing here yet m8, get to it")
+		fmt.Println("There's nothing here yet m8, get to it")
 		break
 	case "PATCH":
 		fmt.Println("PATCH method requested.")
-        fmt.Println("There's nothing here yet m8, get to it")
+		fmt.Println("There's nothing here yet m8, get to it")
 		break
 	case "PUT":
 		fmt.Println("PUT method requested.")
-        fmt.Println("There's nothing here yet m8, get to it")
+		fmt.Println("There's nothing here yet m8, get to it")
 		break
 	case "DELETE":
 		fmt.Println("DELETE method requested.")
-        fmt.Println("There's nothing here yet m8, get to it")
+		fmt.Println("There's nothing here yet m8, get to it")
 		break
 	default:
 		fmt.Println("Please use one of the following supported methods:")
