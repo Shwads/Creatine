@@ -2,7 +2,12 @@ request:
   method: "GET"
   url: "https://blog.boot.dev/index.xml"
   headers:
-    - Authorization: 1234
-    - Names: 
+    Authorization: 1234
+    Names: 
       - "David"
       - "Johnny"
+  body: |
+    {
+      "name": "Adam",
+      "this": "is a test object",
+    }

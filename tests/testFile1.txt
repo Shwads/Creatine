@@ -1,0 +1,12 @@
+request {
+    method {
+        GET
+    }
+
+
+    method(GET)
+    url(https://blog.boot.dev/index.xml)
+    header(Authorization, 1234)
+    header(Names, David)
+    header(Names, Johnny)
+}

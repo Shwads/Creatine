@@ -23,7 +23,16 @@ const (
 
 var parserMode Mode
 
-func proceduralTags(fileScanner *bufio.Scanner, requests *map[string]interface{}) {}
+func ParseRequestFile(fileName string) (map[string]interface{}, error) {
+    file, fileReadErr := os.Open(fileName)
+    if fileReadErr != nil {
+        fmt.Printf("Encountered error: %s. In function ParseRequestFile", fileReadErr)
+        return nil, fileReadErr
+    }
+    defer file.Close()
+
+    return nil, nil
+}
 
 func ParseFile(fileName string) {
 	file, fileReadErr := os.Open(fileName)
@@ -39,12 +48,20 @@ func ParseFile(fileName string) {
 
 	var currTag string
 	var requestTag string
+    var isTag bool
 
 	parserMode = Normal
 	requestNum := 0
 	requests := make(map[string]interface{})
 
 	for fileScanner.Scan() {
+        isTag = false
+        for _, rn := range []rune(fileScanner.Text()) {
+            if rn == ':' {
+                isTag = true
+            }
+        }
+
 		line := strings.Split(fileScanner.Text(), ":")
 		switch parserMode {
 		case Normal:
@@ -116,10 +133,45 @@ func ParseFile(fileName string) {
 				if asRunes[0] != '-' {
                     line[0] = string(asRunes[1:])
                     if len(line) > 1 {
+                        if strings.TrimSpace(line[1]) == "|" {
+                            currTag = strings.TrimSpace(line[0])
+                            requestMap[currTag] = make([]byte, 0)
+                            parserMode = MultiLineVal
+                            break
+                        }
+
                         requestMap[line[0]] = line[1]
+                        parserMode = Normal
+                        break
                     }
 				}
 
+                if len(line) > 1 {
+                    if headerMap, ok := requestMap["Headers"].(map[string][]string); ok {
+                        line[0] = string(asRunes[1:])
+                        line[0] = strings.TrimSpace(line[0])
+
+                        headerMap[line[0]] = []string{line[1]}
+                        parserMode = Normal
+                        break
+                    }
+                }
+
+                if isTag {
+                    if headerMap, ok := requestMap["Headers"].(map[string][]string); ok {
+                        line[0] = string(asRunes[1:])
+                        line[0] = strings.TrimSpace(line[0])
+
+                        headerMap[line[0]] = make([]string, 0)
+                        break
+                    }
+                }
+
+                if headerMap, ok := requestMap["Headers"].(map[string][]string); ok {
+                    asRunes = asRunes[1:]
+                    val := strings.TrimSpace(string(asRunes))
+                    headerMap[currTag] = append(headerMap[currTag], val)
+                }
 			}
 			break
 		case MultiLineVal:
