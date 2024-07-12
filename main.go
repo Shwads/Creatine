@@ -23,7 +23,7 @@ func main() {
 	flag.Parse()
 
     if len(*fileName) > 0 {
-        fmt.Printf("entered this if statement with file name: %s\n", *fileName)
+        //fmt.Printf("entered this if statement with file name: %s\n", *fileName)
         fileParser.ParseFile(*fileName)
         return
     }

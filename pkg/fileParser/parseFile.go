@@ -28,7 +28,9 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 
 	requests := make(map[string]interface{})
 
-	fileScanner.Scan()
+	if fileScanner.Text() == "" {
+		fileScanner.Scan()
+	}
 
 	for {
 		//fmt.Printf("%s\n", fileScanner.Text())
@@ -37,7 +39,7 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 
 		line[0] = strings.TrimSpace(line[0])
 
-		if len(line) > 1 {
+		if len(line) > 1 && len(line) < 3 {
 			if line[1] == "" {
 				line = []string{line[0]}
 			}
@@ -46,9 +48,10 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 		if len(line) > 1 {
 			line[1] = strings.TrimSpace(line[1])
 			if multiRequest {
-				fmt.Printf("Trying to index map with requestTag: %s\n", requestTag)
+				//fmt.Printf("Trying to index map with requestTag: %s\n", requestTag)
 				if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
-					fmt.Printf("Creating key: %s with value: %s\n", line[0], line[1])
+					//fmt.Printf("Creating key: %s with value: %s\n", line[0], line[1])
+                    line[1] = strings.Join(line[1:], ":")
 					requestMap[line[0]] = line[1]
 				} else {
 					fmt.Printf("map did not have expected type. Actual type was %T\n", requests[requestTag])
@@ -105,7 +108,7 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 		}
 
 		if !fileScanner.Scan() {
-			fmt.Printf("\n\n\nPRINTING THE MAP\n\n\n")
+			//fmt.Printf("\n\n\nPRINTING THE MAP\n\n\n")
 			printMap(requests, 0)
 			return requests, nil
 		}

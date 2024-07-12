@@ -9,11 +9,15 @@ import (
 
 
 func bodyParser(fileScanner *bufio.Scanner, requests map[string]interface{}) error {
-	fmt.Printf("\nEntered bodyParser\n\n")
+	//fmt.Printf("\nEntered bodyParser\n\n")
 	fileScanner.Scan()
 
 	for {
 		line := strings.TrimSpace(fileScanner.Text())
+        if line == "request:" {
+            return nil
+        }
+
 		if bodyString, ok := requests["body"].(string); ok {
 			line = strings.TrimSpace(line)
 			bodyString = fmt.Sprintf("%s%s", bodyString, line)
@@ -24,7 +28,7 @@ func bodyParser(fileScanner *bufio.Scanner, requests map[string]interface{}) err
 		}
 
 		if !fileScanner.Scan() {
-			fmt.Printf("\nExiting bodyParser\n\n")
+			//fmt.Printf("\nExiting bodyParser\n\n")
 			return nil
 		}
 	}
