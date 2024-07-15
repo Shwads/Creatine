@@ -32,8 +32,19 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 		fileScanner.Scan()
 	}
 
+    mainParserErr := mainParserThread(fileScanner, requests)
+    if mainParserErr != nil {
+        return nil, mainParserErr
+    }
+    
+    fmt.Print("\n\n\n")
+    printMap(requests, 0)
+    return requests, nil
+
+	var currLineProcessed bool
+
 	for {
-		//fmt.Printf("%s\n", fileScanner.Text())
+		currLineProcessed = false
 
 		line := strings.Split(fileScanner.Text(), ":")
 
@@ -51,7 +62,7 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 				//fmt.Printf("Trying to index map with requestTag: %s\n", requestTag)
 				if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
 					//fmt.Printf("Creating key: %s with value: %s\n", line[0], line[1])
-                    line[1] = strings.Join(line[1:], ":")
+					line[1] = strings.Join(line[1:], ":")
 					requestMap[line[0]] = line[1]
 				} else {
 					fmt.Printf("map did not have expected type. Actual type was %T\n", requests[requestTag])
@@ -64,27 +75,27 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 			requestNum += 1
 			multiRequest = true
 			requestTag = fmt.Sprintf("request-%d", requestNum)
-			//fmt.Printf("requestTag is %s\n", requestTag)
-			//fmt.Printf("length of split line is %d.\n", len(line))
 			requests[requestTag] = make(map[string]interface{})
-			//fmt.Printf("Type of requests['requestTag'] is %T", requests[requestTag])
+			currLineProcessed = true
 			break
 
 		case "headers":
 			if multiRequest {
 				if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
 					requestMap["headers"] = make(map[string][]string)
-					headerParseErr := headerParser(fileScanner, requestMap)
+					anotherRequest, headerParseErr := headerParser(fileScanner, requestMap)
 					if headerParseErr != nil {
 						return nil, headerParseErr
 					}
+					currLineProcessed = !anotherRequest
 				}
 			} else {
 				requests["headers"] = make(map[string][]string)
-				headerParseErr := headerParser(fileScanner, requests)
+				anotherRequest, headerParseErr := headerParser(fileScanner, requests)
 				if headerParseErr != nil {
 					return nil, headerParseErr
 				}
+				currLineProcessed = !anotherRequest
 			}
 			break
 
@@ -92,25 +103,29 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 			if multiRequest {
 				if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
 					requestMap["body"] = ""
-					bodyParseErr := bodyParser(fileScanner, requestMap)
+					_, bodyParseErr := bodyParser(fileScanner, requestMap)
 					if bodyParseErr != nil {
 						return nil, bodyParseErr
 					}
+					currLineProcessed = false
 				}
 			} else {
 				requests["body"] = ""
-				bodyParseErr := bodyParser(fileScanner, requests)
+				_, bodyParseErr := bodyParser(fileScanner, requests)
 				if bodyParseErr != nil {
 					return nil, bodyParseErr
 				}
+				currLineProcessed = false
 			}
 			break
 		}
 
-		if !fileScanner.Scan() {
-			//fmt.Printf("\n\n\nPRINTING THE MAP\n\n\n")
-			printMap(requests, 0)
-			return requests, nil
+		if currLineProcessed {
+			if !fileScanner.Scan() {
+				//fmt.Printf("\n\n\nPRINTING THE MAP\n\n\n")
+				printMap(requests, 0)
+				return requests, nil
+			}
 		}
 	}
 }
