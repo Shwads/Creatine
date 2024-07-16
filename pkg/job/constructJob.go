@@ -19,18 +19,24 @@ func ConstructJob(requests map[string]interface{}) ([]Job, error) {
 			if verbose, ok := requestMap["verbose"]; ok {
 				if verbose, ok := verbose.(string); ok {
 					nextJob.Verbose = strings.ToLower(verbose) == "true"
+				} else {
+					nextJob.Verbose = true
 				}
 			}
 
-			if printToFile, ok := requestMap["print"]; ok {
+			if printToFile, ok := requestMap["file"]; ok {
 				if printToFile, ok := printToFile.(string); ok {
 					nextJob.PrintToFile = strings.ToLower(printToFile) == "true"
+				} else {
+					nextJob.PrintToFile = true
 				}
 			}
 
 			if printToConsole, ok := requestMap["console"]; ok {
 				if printToConsole, ok := printToConsole.(string); ok {
 					nextJob.PrintToConsole = strings.ToLower(printToConsole) == "true"
+				} else {
+					nextJob.PrintToConsole = false
 				}
 			}
 
