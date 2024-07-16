@@ -20,13 +20,20 @@ request:
             - item 1
             - item 2
 
-    body: |                             // optional
+    body: |                             // optional - defaults to empty. '|' indicates the request parser should preserve newline characters
         {
             "some": "multi line",
             "request": "body content",
         }
 
 request:
-    ...
+    url: https://examplelink.com
+    method: GET
+
+    body: >                             // optional - defaults to empty. '>' indicates newline characters will not be preserved
+        {
+            "some": "multi line",
+            "request": "body content",
+        }
     
 ```
