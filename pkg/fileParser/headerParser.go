@@ -11,7 +11,6 @@ import (
 func headerParser(fileScanner *bufio.Scanner, requests map[string]interface{}) (bool, error) {
 	var currTag string
 
-	fmt.Printf("\nSkipping the line: %s\n\n", fileScanner.Text())
 	fileScanner.Scan()
 
 	for {

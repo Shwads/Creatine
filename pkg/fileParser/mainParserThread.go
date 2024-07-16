@@ -16,7 +16,6 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 	requestNum := 0
 
 	for {
-		fmt.Println(fileScanner.Text())
 		currLineProcessed = false
 
 		line := strings.Split(fileScanner.Text(), ":")
@@ -29,22 +28,16 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 			requestTag = fmt.Sprintf("request-%d", requestNum)
 			requests[requestTag] = make(map[string]interface{})
 			currLineProcessed = true
-			fmt.Printf("created request: %s\n\n", requestTag)
 			break
 
 		case "headers":
-			fmt.Printf("Entered the header guard with request: %s\n", requestTag)
 			if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
 				requestMap["headers"] = make(map[string][]string)
-				//fmt.Printf("created requests['request-2']['headers']\n")
 
 				anotherRequest, headerParseErr := headerParser(fileScanner, requestMap)
 				if headerParseErr != nil {
 					return headerParseErr
 				}
-
-				fmt.Printf("fileScanner pointing to: %s\n", fileScanner.Text())
-				fmt.Printf("skip this line is %t\n", !anotherRequest)
 
 				currLineProcessed = !anotherRequest
 			}
@@ -63,9 +56,6 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 						if bodyParseErr != nil {
 							return bodyParseErr
 						}
-						fmt.Print("\nfrom main thread\n")
-						fmt.Printf("fileScanner pointing to: %s\n", fileScanner.Text())
-						fmt.Printf("skip this line is %t\n", !anotherRequest)
 
 						// if there's another request (anotherRequest == true) then the current line
 						// hasn't been processed
@@ -104,9 +94,6 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 
 			if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
 				requestMap[line[0]] = strings.TrimSpace(line[1])
-                fmt.Printf("line: %s was processed\n", fileScanner.Text())
-                fmt.Printf("%s split into %s and %s\n", fileScanner.Text(), line[0], line[1])
-                fmt.Print("\n\n")
 				currLineProcessed = true
 			} else {
 				// check in case requestTag has not been set
@@ -122,7 +109,6 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 
 		// If the current line has been dealt with fetch the next line, if that's the EOF then return
 		if currLineProcessed {
-			fmt.Printf("\nSkipping the line: %s\n\n", fileScanner.Text())
 			if !fileScanner.Scan() {
 				return nil
 			}

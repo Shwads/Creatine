@@ -1,11 +1,11 @@
 request:
-  method: "POST"
-  url: "https://blog.boot.dev/index.xml"
+  method: POST
+  url: https://blog.boot.dev/index.xml
   headers: 
     Authorization: 0987
     Whoble:
-      - "Hobble"
-      - "Gamdon"
+      - Hobble
+      - Gamdon
   body: |
     <someTag>
       that's a tag 
@@ -15,13 +15,13 @@ request:
     </anotherTag>
 
 request:
-  method: "GET"
-  url: "https://blog.boot.dev/index.xml"
+  method: GET
+  url: https://blog.boot.dev/index.xml
   headers:
     Authorization: 1234
     Names: 
-      - "David"
-      - "Johnny"
+      - David
+      - Johnny
   body: |
     {
       "name": "Adam",

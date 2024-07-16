@@ -1,10 +1,11 @@
 package main
 
 import (
-	"Creatine/pkg/job"
 	"Creatine/pkg/fileParser"
+	"Creatine/pkg/job"
 	"flag"
 	"fmt"
+	"log"
 	"net/url"
 	"strings"
 )
@@ -23,8 +24,20 @@ func main() {
 	flag.Parse()
 
     if len(*fileName) > 0 {
-        //fmt.Printf("entered this if statement with file name: %s\n", *fileName)
-        fileParser.ParseFile(*fileName)
+        requests, parseFileErr := fileParser.ParseFile(*fileName)
+        if parseFileErr != nil {
+            log.Printf("%s\n", parseFileErr)
+            return
+        }
+
+        jobList, jobListErr := job.ConstructJob(requests)
+        if jobListErr != nil {
+            log.Printf("Encountered error: %s\n", jobListErr)
+            return
+        }
+
+        job.PrintJobList(jobList)
+
         return
     }
 

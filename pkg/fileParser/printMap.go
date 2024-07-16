@@ -21,7 +21,6 @@ func printMap(requests map[string]interface{}, indent int) {
 				fmt.Printf("%s %s", line, val)
 			}
 		} else if requestMap, ok := requests[key].(map[string][]string); ok {
-            fmt.Printf("found a map with []string values for key: %s\n", key)
 			for key, list := range requestMap {
 				fmt.Printf("%s %s: \n", line, key)
 
@@ -30,7 +29,6 @@ func printMap(requests map[string]interface{}, indent int) {
 				}
 			}
 		} else if requestMap, ok := requests[key].(map[string]interface{}); ok {
-            fmt.Printf("found a map with interface{} values for key: %s\n", key)
 			printMap(requestMap, indent+1)
 	    } else {
             fmt.Printf("did not file valid map type")
