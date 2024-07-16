@@ -3,24 +3,24 @@
 When you're tired our from ```cURL```ing, creatine will help you recover.
 
 ## Accepted File Tags
-Example request file:
+Example request file.yml:
 
 ```
 request:
-    file: false         // optional - defaults to true
-    console: false      // optional - defualts to false
-    verbose: false      // optional - defaults to true
+    file: false                         // optional - defaults to true (write output to file)
+    console: false                      // optional - defualts to false (print output to console)
+    verbose: false                      // optional - defaults to true 
 
     url: https://examplelink.com
     method: GET
 
-    headers:
+    headers:                            // optional 
         Authorization: 1234
         ItemList:
             - item 1
             - item 2
 
-    body: |
+    body: |                             // optional
         {
             "some": "multi line",
             "request": "body content",
