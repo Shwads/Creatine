@@ -16,6 +16,11 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 	requestNum := 0
 
 	for {
+        if strings.TrimSpace(fileScanner.Text()) == "" {
+            fileScanner.Scan()
+            continue
+        }
+
 		currLineProcessed = false
 
 		line := strings.Split(fileScanner.Text(), ":")
@@ -75,8 +80,8 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 					}
 
 				} else {
-                    log.Println("tag 'body:' should be accompanied with a label")
-                }
+					log.Println("tag 'body:' should be accompanied with a label")
+				}
 
 			}
 			break

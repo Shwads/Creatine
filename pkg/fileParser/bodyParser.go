@@ -21,6 +21,11 @@ func bodyParser(preserveNewlines bool, fileScanner *bufio.Scanner, requests map[
 		if bodyString, ok := requests["body"].(string); ok {
 			line = strings.TrimSpace(line)
 			bodyString = fmt.Sprintf("%s%s", bodyString, line)
+
+            if preserveNewlines {
+                bodyString = fmt.Sprintf("%s\n", bodyString)
+            }
+
 			requests["body"] = bodyString
 		} else {
 			return false, errors.New("improperly formatted map object. map['body'] should have type string")

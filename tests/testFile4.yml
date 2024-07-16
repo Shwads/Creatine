@@ -1,0 +1,31 @@
+request:
+  method: POST
+  url: https://blog.boot.dev/index.xml
+  headers: 
+    Authorization: 0987
+    Whoble:
+      - Hobble
+      - Gamdon
+  body: >
+    <someTag>
+      that's a tag 
+    </someTag>
+    <anotherTag>
+      xml can be pretty easy
+    </anotherTag>
+
+request:
+  method: GET
+  url: https://blog.boot.dev/index.xml
+
+  headers:
+    Authorization: 1234
+    Names: 
+      - David
+      - Johnny
+
+  body: |
+    {
+      "name": "Adam",
+      "this": "is a test object",
+    }
