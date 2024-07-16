@@ -30,15 +30,28 @@ func headerParser(fileScanner *bufio.Scanner, requests map[string]interface{}) (
 		if line[0] == "body" {
 			if len(line) > 1 {
 				line[1] = strings.TrimSpace(line[1])
+
 				if line[1] == "|" {
 					requests["body"] = ""
-					anotherRequest, bodyParserErr := bodyParser(fileScanner, requests)
+
+					anotherRequest, bodyParserErr := bodyParser(true, fileScanner, requests)
 					if bodyParserErr != nil {
 						return false, bodyParserErr
 					}
 
 					return anotherRequest, nil
-				} else {
+
+				} else if line[1] == ">" {
+                    requests["body"] = ""
+
+                    anotherRequest, bodyParserErr := bodyParser(false, fileScanner, requests)
+                    if bodyParserErr != nil {
+                        return false, bodyParserErr
+                    }
+                    
+                    return anotherRequest, nil
+
+                } else {
 					requests["body"] = line[1]
 					return false, nil
 				}

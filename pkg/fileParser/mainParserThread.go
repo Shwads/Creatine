@@ -52,7 +52,7 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 
 					if line[1] == "|" {
 						requestMap["body"] = ""
-						anotherRequest, bodyParseErr := bodyParser(fileScanner, requestMap)
+						anotherRequest, bodyParseErr := bodyParser(true, fileScanner, requestMap)
 						if bodyParseErr != nil {
 							return bodyParseErr
 						}
@@ -61,19 +61,23 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 						// hasn't been processed
 						currLineProcessed = !anotherRequest
 
+					} else if line[1] == ">" {
+						requestMap["body"] = ""
+						anotherRequest, bodyParseErr := bodyParser(false, fileScanner, requestMap)
+						if bodyParseErr != nil {
+							return bodyParseErr
+						}
+
+						currLineProcessed = !anotherRequest
 					} else {
 						requestMap["body"] = line[1]
 						currLineProcessed = true
 					}
 
-				}
+				} else {
+                    log.Println("tag 'body:' should be accompanied with a label")
+                }
 
-				anotherRequest, bodyParseErr := bodyParser(fileScanner, requestMap)
-				if bodyParseErr != nil {
-					return bodyParseErr
-				}
-
-				currLineProcessed = !anotherRequest
 			}
 			break
 		}
