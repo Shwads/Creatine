@@ -6,6 +6,7 @@ func PrintJobList(jobList []Job) {
     fmt.Println("Printing Job List")
 
     for _, job := range jobList {
+        fmt.Printf("request number: %d\n", job.RequestNum)
         fmt.Printf("url: %s\n", job.Url)  
         fmt.Printf("method: %s\n", job.Method)
         fmt.Printf("print to file: %t\n", job.PrintToFile)
@@ -19,6 +20,8 @@ func PrintJobList(jobList []Job) {
             }
             fmt.Print("\n")
         }
+
+        fmt.Printf("body: %s\n", string(job.ReqBody))
         fmt.Println()
     }
 }

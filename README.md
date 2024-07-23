@@ -14,7 +14,7 @@ request:
     url: https://examplelink.com
     method: GET
 
-    headers:                            // optional 
+    headers:                            // optional - defaults to empty
         Authorization: 1234
         ItemList:
             - item 1

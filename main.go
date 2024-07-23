@@ -30,13 +30,10 @@ func main() {
             return
         }
 
-        jobList, jobListErr := job.ConstructJob(requests)
-        if jobListErr != nil {
-            log.Printf("Encountered error: %s\n", jobListErr)
-            return
+        jobberErr := job.Jobber(requests)
+        if jobberErr != nil {
+            log.Printf("Encountered Error: %s\n", jobberErr)
         }
-
-        job.PrintJobList(jobList)
 
         return
     }

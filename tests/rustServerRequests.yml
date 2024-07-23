@@ -1,0 +1,7 @@
+request:
+  method: GET
+  url: http://localhost:8000/health_check
+
+request:
+  method: GET
+  url: http://localhost:8000/

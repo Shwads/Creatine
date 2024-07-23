@@ -15,6 +15,7 @@ func ConstructJob(requests map[string]interface{}) ([]Job, error) {
 		requestNum += 1
 		if requestMap, ok := requests[request].(map[string]interface{}); ok {
 			nextJob := Job{}
+            nextJob.RequestNum = requestNum
 
 			if verbose, ok := requestMap["verbose"]; ok {
 				if verbose, ok := verbose.(string); ok {

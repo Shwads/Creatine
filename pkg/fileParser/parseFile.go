@@ -32,7 +32,7 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
         return nil, mainParserErr
     }
     
-    printMap(requests, 0)
+    // printMap(requests, 0)
     return requests, nil
 
 }
