@@ -1,6 +1,6 @@
 # Creatine
 
-When you're tired our from ```cURL```ing, creatine will help you recover.
+When you're tired out from ```cURL```ing, creatine will help you recover.
 
 ## Accepted File Tags
 Example request file.yml:
