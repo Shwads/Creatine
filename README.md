@@ -7,9 +7,9 @@ Example request file.yml:
 
 ```
 request:
-    file: false                         // optional - defaults to true (write output to file)
-    console: false                      // optional - defualts to false (print output to console)
-    verbose: false                      // optional - defaults to true 
+    file: false                         # optional - defaults to true (write output to file)
+    console: false                      # optional - defaults to false (print output to console)
+    verbose: false                      # optional - defaults to true 
 
     url: https://examplelink.com
     method: GET
@@ -37,3 +37,5 @@ request:
         }
     
 ```
+
+

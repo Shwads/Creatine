@@ -7,6 +7,7 @@ import (
 
 type Job struct {
 	RequestNum     int
+	Title          string
 	Url            *url.URL
 	Verbose        bool
 	PrintToFile    bool

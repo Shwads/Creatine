@@ -3,25 +3,46 @@ package main
 import (
 	"Creatine/pkg/fileParser"
 	"Creatine/pkg/job"
+	"Creatine/pkg/scriptParser"
 	"flag"
 	"fmt"
 	"log"
 	"net/url"
+	"os"
 	"strings"
 )
 
 func main() {
-	verbose := flag.Bool("v", false, "print all response content")
+    // FLAGS FOR CONSOLE PRINTING
+	verbose := flag.Bool("v", false, "print all response content\n")
 	printToFile := flag.Bool("pf", false, "write the output to a file\n")
-	printToConsole := flag.Bool("pc", true, "Print the response to the console. Default true.")
+	printToConsole := flag.Bool("pc", true, "Print the response to the console. Default true.\n")
 
 	var method *string
-    var fileName *string
 
 	method = flag.String("m", "GET", "Used to specify the http request method.\n")
+
+    // FLAGS FOR PARSING REQUEST SCRIPTS
+    executeNonIdempotent := flag.Bool("ni", false, "exectute all requests including non-idempotent\n")
+
+    var scriptName *string
+
+    scriptName = flag.String("s", "", "Provide a request script file to construct requests from\n")
+
+    // FLAGS FOR PARSING REQUEST FILES
+    var fileName *string
+
     fileName = flag.String("f", "", "Provide a file to construct a request from.\n")
 
 	flag.Parse()
+
+    if len(*scriptName) > 0 {
+        scriptParseErr := scriptParser.ParseScript(*executeNonIdempotent, *scriptName)
+        if scriptParseErr != nil {
+            os.Exit(1)
+        }
+        return
+    }
 
     if len(*fileName) > 0 {
         requests, parseFileErr := fileParser.ParseFile(*fileName)

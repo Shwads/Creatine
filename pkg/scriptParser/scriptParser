@@ -1,0 +1,3 @@
+package scriptParser
+
+func parseScript() {}

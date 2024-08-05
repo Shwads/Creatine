@@ -1,0 +1,18 @@
+request:
+  title: POST v1-users
+  console: true
+  url: http://localhost:8080/v1/users
+  method: POST
+  body: |
+    {
+      "name": "Condoriano"
+    }
+
+request:
+  title: GET v1-users
+  console: true
+  url: http://localhost:8080/v1/users
+  method: GET
+
+  headers:
+    Authorization: ApiKey 5b45b5322e0df0ed1c7088ca7050be1c368df9af70eb736a7d0c7746a1ddf2dc

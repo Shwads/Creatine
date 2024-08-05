@@ -1,7 +1,11 @@
 request:
+  console: true
+
   method: GET
   url: http://localhost:8000/health_check
 
 request:
+  console: true
+
   method: GET
   url: http://localhost:8000/

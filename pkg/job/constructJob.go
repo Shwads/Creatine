@@ -3,6 +3,7 @@ package job
 import (
 	"errors"
 	"fmt"
+	"log"
 	"net/url"
 	"strings"
 )
@@ -15,30 +16,59 @@ func ConstructJob(requests map[string]interface{}) ([]Job, error) {
 		requestNum += 1
 		if requestMap, ok := requests[request].(map[string]interface{}); ok {
 			nextJob := Job{}
-            nextJob.RequestNum = requestNum
+			nextJob.RequestNum = requestNum
+
+			if title, ok := requestMap["title"]; ok {
+				if title, ok := title.(string); ok {
+					nextJob.Title = title
+				} else {
+					errString := fmt.Sprintf("did not find expected type string for title instead found %T\n", title)
+					log.Printf(errString)
+					return jobList, errors.New(errString)
+				}
+
+			} else {
+                nextJob.Title = ""
+            }
 
 			if verbose, ok := requestMap["verbose"]; ok {
 				if verbose, ok := verbose.(string); ok {
 					nextJob.Verbose = strings.ToLower(verbose) == "true"
+					fmt.Printf("Found val %s for verbosity\n", verbose)
 				} else {
-					nextJob.Verbose = true
+					errString := fmt.Sprintf("did not find expected type string for verbosity instead found %T\n", verbose)
+					log.Printf(errString)
+					return jobList, errors.New(errString)
 				}
+			} else {
+				nextJob.Verbose = true
+				fmt.Printf("Set verbose to %t\n", nextJob.Verbose)
 			}
 
 			if printToFile, ok := requestMap["file"]; ok {
 				if printToFile, ok := printToFile.(string); ok {
 					nextJob.PrintToFile = strings.ToLower(printToFile) == "true"
 				} else {
-					nextJob.PrintToFile = true
+					errString := fmt.Sprintf("did not find expected type string for verbosity instead found %T\n", printToFile)
+					log.Printf(errString)
+					return jobList, errors.New(errString)
 				}
+
+			} else {
+				nextJob.PrintToFile = true
 			}
 
 			if printToConsole, ok := requestMap["console"]; ok {
 				if printToConsole, ok := printToConsole.(string); ok {
 					nextJob.PrintToConsole = strings.ToLower(printToConsole) == "true"
 				} else {
-					nextJob.PrintToConsole = false
+					errString := fmt.Sprintf("did not find expected type string for verbosity instead found %T\n", printToConsole)
+					log.Printf(errString)
+					return jobList, errors.New(errString)
 				}
+
+			} else {
+				nextJob.PrintToConsole = false
 			}
 
 			if urlString, ok := requestMap["url"]; ok {

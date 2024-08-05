@@ -14,14 +14,30 @@ func (job Job) writeToFile() error {
         return dirCreateErr
     }
 
-	file, fileCreateErr := os.Create(fmt.Sprintf("responses/Request-%d:%s.txt", job.RequestNum, job.Method))
+    var requestTitle string
+
+    if job.Title != "" {
+        requestTitle = job.Title
+    } else {
+        requestTitle = fmt.Sprintf("Request-%d:%s", job.RequestNum, job.Method)
+    }
+
+	file, fileCreateErr := os.Create(fmt.Sprintf("responses/%s.txt", requestTitle))
 	if fileCreateErr != nil {
 		log.Printf("Encountered error: %s\n", fileCreateErr)
 		return fileCreateErr
 	}
 	defer file.Close()
+
+    nameString := fmt.Sprintf("\nRequest %d: %s %s\n\n", job.RequestNum, job.Method, job.Url)
+    _, fileWriteErr := file.WriteString(nameString)
+    if fileWriteErr != nil {
+        log.Printf("Encountered error: %s. On atttempted file write\n", fileWriteErr)
+        return fileWriteErr
+    }
+
     statusString := fmt.Sprintf("Status: %s\n\n", job.Res.Status)
-    _, fileWriteErr := file.Write([]byte(statusString))
+    _, fileWriteErr = file.Write([]byte(statusString))
     if fileWriteErr != nil {
         log.Printf("Encountered error: %s. When attempting to write status to file.\n", fileWriteErr)
         return fileWriteErr
@@ -58,7 +74,7 @@ func (job Job) writeToFile() error {
     file.Write([]byte("Body:\n"))
 
     for {
-        bytesRead, readerErr := reader.Read(buffer);
+        bytesRead, readerErr := reader.Read(buffer)
 
         file.Write(buffer[:bytesRead])
 

@@ -8,6 +8,9 @@ import (
 	"strings"
 )
 
+// TODO: add safety checking for too many requests. 
+// Stagger them and do them in batches
+
 func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{}) error {
 
 	var currLineProcessed bool
