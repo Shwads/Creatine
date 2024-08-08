@@ -49,7 +49,7 @@ func main() {
 	//}
 
     if *parseScript {
-        scriptParseErr := scriptParser.ParseScript(*executeNonIdempotent, SCRIPTNAME)
+        scriptParseErr := scriptParser.LexScript(*executeNonIdempotent, SCRIPTNAME)
         if scriptParseErr != nil {
             os.Exit(1)
         }

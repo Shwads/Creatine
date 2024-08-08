@@ -1,0 +1,15 @@
+request:
+  title: GET User Posts
+
+  console: true
+
+  method: GET
+  url: http://localhost:8080/v1/posts
+
+  headers:
+    Authorization: ApiKey 
+
+  body: |
+    {
+      "limit": 5
+    }

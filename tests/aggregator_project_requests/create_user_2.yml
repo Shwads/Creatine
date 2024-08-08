@@ -1,0 +1,12 @@
+request:
+  title: Create User 2
+
+  file: true
+
+  method: POST
+  url: http://localhost:8080/v1/users
+
+  body: |
+    {
+      "name": "Silvers Rayleigh"
+    }

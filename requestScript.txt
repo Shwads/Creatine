@@ -16,3 +16,8 @@ get_user_and_all_feeds(
    tests/aggregator_project_requests/endpoint-users-i.yml 
    tests/aggregator_project_requests/endpoint-feeds-i.yml
 )
+
+create_new_users (
+    tests/aggregator_project_requests/create_user_1.yml
+    tests/aggregator_project_requests/create_user_2.yml
+)

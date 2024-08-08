@@ -1,0 +1,12 @@
+request:
+  title: Create User 1
+
+  console: true
+
+  method: POST
+  url: http://localhost:8080/v1/users
+
+  body: |
+    {
+      "name": "Wong Kar-Wai"
+    }
