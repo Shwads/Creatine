@@ -28,8 +28,8 @@ func ConstructJob(requests map[string]interface{}) ([]Job, error) {
 				}
 
 			} else {
-                nextJob.Title = ""
-            }
+				nextJob.Title = ""
+			}
 
 			if verbose, ok := requestMap["verbose"]; ok {
 				if verbose, ok := verbose.(string); ok {

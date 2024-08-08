@@ -15,7 +15,7 @@ func printMap(requests map[string]interface{}, indent int) {
 		fmt.Printf("%s%s: \n", line, key)
 
 		if tagString, ok := requests[key].(string); ok {
-			fmt.Printf("%s %s\n",line, tagString)
+			fmt.Printf("%s %s\n", line, tagString)
 		} else if tagList, ok := requests[key].([]string); ok {
 			for _, val := range tagList {
 				fmt.Printf("%s %s", line, val)
@@ -30,9 +30,9 @@ func printMap(requests map[string]interface{}, indent int) {
 			}
 		} else if requestMap, ok := requests[key].(map[string]interface{}); ok {
 			printMap(requestMap, indent+1)
-	    } else {
-            fmt.Printf("did not file valid map type")
-        }
+		} else {
+			fmt.Printf("did not file valid map type")
+		}
 		fmt.Print("\n")
 
 	}

@@ -1,6 +1,6 @@
 package job
 
-func Jobber(requests map[string]interface{}) error {
+func Jobber(requests map[string]interface{}, sendAll bool) error {
 
 	jobList, jobListErr := ConstructJob(requests)
 	if jobListErr != nil {
@@ -9,11 +9,13 @@ func Jobber(requests map[string]interface{}) error {
 
 	PrintJobList(jobList)
 
-    count := 0
-
 	for _, job := range jobList {
-        count += 1
-        job.SendRequest()
+		if !sendAll {
+			if job.Method == "POST" || job.Method == "PATCH" {
+				continue
+			}
+		}
+		job.SendRequest()
 	}
 
 	return nil

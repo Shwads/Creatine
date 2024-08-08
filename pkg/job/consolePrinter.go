@@ -10,8 +10,8 @@ import (
 
 func (job Job) printToConsole() error {
 
-    fmt.Println("=======================================================================")
-    fmt.Println("=======================================================================")
+	fmt.Println("=======================================================================")
+	fmt.Println("=======================================================================")
 
 	if job.PrintToFile {
 		file, fileOpenErr := os.Open(fmt.Sprintf("responses/Request-%d:%s.txt", job.RequestNum, job.Method))
@@ -33,11 +33,11 @@ func (job Job) printToConsole() error {
 					log.Printf("Encountered error: %s. On attempting file read.", readErr)
 					return readErr
 				}
-                break
+				break
 			}
 		}
 
-        fmt.Println()
+		fmt.Println()
 		return nil
 	}
 
@@ -81,11 +81,10 @@ func (job Job) printToConsole() error {
 		fmt.Println()
 	}
 
-    fmt.Println()
-    fmt.Println("=======================================================================")
-    fmt.Println("=======================================================================")
-    fmt.Println()
-
+	fmt.Println()
+	fmt.Println("=======================================================================")
+	fmt.Println("=======================================================================")
+	fmt.Println()
 
 	return nil
 }

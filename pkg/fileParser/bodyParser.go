@@ -22,9 +22,9 @@ func bodyParser(preserveNewlines bool, fileScanner *bufio.Scanner, requests map[
 			line = strings.TrimSpace(line)
 			bodyString = fmt.Sprintf("%s%s", bodyString, line)
 
-            if preserveNewlines {
-                bodyString = fmt.Sprintf("%s\n", bodyString)
-            }
+			if preserveNewlines {
+				bodyString = fmt.Sprintf("%s\n", bodyString)
+			}
 
 			requests["body"] = bodyString
 		} else {

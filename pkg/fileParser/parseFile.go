@@ -11,11 +11,11 @@ import (
 	"os"
 )
 
-func ParseFile(fileName string) (map[string]interface{}, error) {
+func ParseFile(fileName string) (map[string]interface{}, bool, error) {
 	file, fileOpenErr := os.Open(fileName)
 	if fileOpenErr != nil {
 		log.Printf("Encountered Error: %s. In function 'Parsefile'.", fileOpenErr)
-		return nil, fileOpenErr
+		return nil, false, fileOpenErr
 	}
 	defer file.Close()
 
@@ -27,12 +27,12 @@ func ParseFile(fileName string) (map[string]interface{}, error) {
 		fileScanner.Scan()
 	}
 
-    mainParserErr := mainParserThread(fileScanner, requests)
-    if mainParserErr != nil {
-        return nil, mainParserErr
-    }
-    
-    // printMap(requests, 0)
-    return requests, nil
+	idempotent, mainParserErr := mainParserThread(fileScanner, requests)
+	if mainParserErr != nil {
+		return nil, false, mainParserErr
+	}
+
+	// printMap(requests, 0)
+	return requests, idempotent, nil
 
 }

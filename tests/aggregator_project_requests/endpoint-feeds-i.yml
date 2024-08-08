@@ -1,0 +1,7 @@
+request:
+  title: GET v1-feeds
+
+  console: true
+
+  method: GET
+  url: http://localhost:8080/v1/feeds

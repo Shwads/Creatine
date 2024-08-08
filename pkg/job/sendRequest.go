@@ -37,12 +37,12 @@ func (job Job) SendRequest() error {
 		}
 	}
 
-    if job.PrintToConsole {
-        printToConsoleErr := job.printToConsole()
-        if printToConsoleErr != nil {
-            return printToConsoleErr
-        }
-    }
+	if job.PrintToConsole {
+		printToConsoleErr := job.printToConsole()
+		if printToConsoleErr != nil {
+			return printToConsoleErr
+		}
+	}
 
 	return nil
 }

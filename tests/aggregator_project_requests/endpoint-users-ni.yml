@@ -1,0 +1,13 @@
+request:
+  title: POST v1-users
+
+  console: true
+  url: http://localhost:8080/v1/users 
+  method: POST
+
+  body: |
+    {
+      "name": "Monkey D. Garp"
+    }
+
+

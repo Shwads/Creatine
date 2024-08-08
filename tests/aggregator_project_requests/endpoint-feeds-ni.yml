@@ -1,0 +1,10 @@
+request:
+  title: POST v1-feeds
+
+  console: true
+
+  method: POST
+  url: http://localhost:8080/v1/feeds 
+
+  headers:
+    Authorization: ApiKey

@@ -1,7 +1,18 @@
-endpoint_users ()
+endpoint_users (
+    tests/aggregator_project_requests/endpoint-users-i.yml
+    tests/aggregator_project_requests/endpoint-users-ni.yml
+)
 
-endpoint_feeds ()
+endpoint_feeds (
+    tests/aggregator_project_requests/endpoint-feeds-i.yml
+    tests/aggregator_project_requests/endpoint-feeds-ni.yml
+)
 
 endpoint_feed_follows ()
 
 endpoint_posts ()
+
+get_user_and_all_feeds(
+   tests/aggregator_project_requests/endpoint-users-i.yml 
+   tests/aggregator_project_requests/endpoint-feeds-i.yml
+)

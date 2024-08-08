@@ -42,16 +42,16 @@ func headerParser(fileScanner *bufio.Scanner, requests map[string]interface{}) (
 					return anotherRequest, nil
 
 				} else if line[1] == ">" {
-                    requests["body"] = ""
+					requests["body"] = ""
 
-                    anotherRequest, bodyParserErr := bodyParser(false, fileScanner, requests)
-                    if bodyParserErr != nil {
-                        return false, bodyParserErr
-                    }
-                    
-                    return anotherRequest, nil
+					anotherRequest, bodyParserErr := bodyParser(false, fileScanner, requests)
+					if bodyParserErr != nil {
+						return false, bodyParserErr
+					}
 
-                } else {
+					return anotherRequest, nil
+
+				} else {
 					requests["body"] = line[1]
 					return false, nil
 				}

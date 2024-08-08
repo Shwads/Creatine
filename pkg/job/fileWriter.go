@@ -9,18 +9,18 @@ import (
 )
 
 func (job Job) writeToFile() error {
-    if dirCreateErr := os.Mkdir("responses", os.ModePerm); dirCreateErr != nil && dirCreateErr.Error() != "mkdir responses: file exists" {
-        log.Printf("Encountered error: %s. Upon attempted directory creation\n", dirCreateErr)
-        return dirCreateErr
-    }
+	if dirCreateErr := os.Mkdir("responses", os.ModePerm); dirCreateErr != nil && dirCreateErr.Error() != "mkdir responses: file exists" {
+		log.Printf("Encountered error: %s. Upon attempted directory creation\n", dirCreateErr)
+		return dirCreateErr
+	}
 
-    var requestTitle string
+	var requestTitle string
 
-    if job.Title != "" {
-        requestTitle = job.Title
-    } else {
-        requestTitle = fmt.Sprintf("Request-%d:%s", job.RequestNum, job.Method)
-    }
+	if job.Title != "" {
+		requestTitle = job.Title
+	} else {
+		requestTitle = fmt.Sprintf("Request-%d:%s", job.RequestNum, job.Method)
+	}
 
 	file, fileCreateErr := os.Create(fmt.Sprintf("responses/%s.txt", requestTitle))
 	if fileCreateErr != nil {
@@ -29,19 +29,19 @@ func (job Job) writeToFile() error {
 	}
 	defer file.Close()
 
-    nameString := fmt.Sprintf("\nRequest %d: %s %s\n\n", job.RequestNum, job.Method, job.Url)
-    _, fileWriteErr := file.WriteString(nameString)
-    if fileWriteErr != nil {
-        log.Printf("Encountered error: %s. On atttempted file write\n", fileWriteErr)
-        return fileWriteErr
-    }
+	nameString := fmt.Sprintf("\nRequest %d: %s %s\n\n", job.RequestNum, job.Method, job.Url)
+	_, fileWriteErr := file.WriteString(nameString)
+	if fileWriteErr != nil {
+		log.Printf("Encountered error: %s. On atttempted file write\n", fileWriteErr)
+		return fileWriteErr
+	}
 
-    statusString := fmt.Sprintf("Status: %s\n\n", job.Res.Status)
-    _, fileWriteErr = file.Write([]byte(statusString))
-    if fileWriteErr != nil {
-        log.Printf("Encountered error: %s. When attempting to write status to file.\n", fileWriteErr)
-        return fileWriteErr
-    }
+	statusString := fmt.Sprintf("Status: %s\n\n", job.Res.Status)
+	_, fileWriteErr = file.Write([]byte(statusString))
+	if fileWriteErr != nil {
+		log.Printf("Encountered error: %s. When attempting to write status to file.\n", fileWriteErr)
+		return fileWriteErr
+	}
 
 	if job.Res.Header != nil {
 		_, fileWriteErr := file.Write([]byte("Headers:\n"))
@@ -56,7 +56,7 @@ func (job Job) writeToFile() error {
 				writeString = fmt.Sprintf("%s %s", writeString, val)
 			}
 
-            writeString = fmt.Sprintf("%s\n", writeString)
+			writeString = fmt.Sprintf("%s\n", writeString)
 
 			_, fileWriteErr := file.Write([]byte(writeString))
 			if fileWriteErr != nil {
@@ -64,28 +64,28 @@ func (job Job) writeToFile() error {
 				return fileWriteErr
 			}
 		}
-        file.Write([]byte("\n"))
+		file.Write([]byte("\n"))
 	}
 
-    buffer := make([]byte, 256)
+	buffer := make([]byte, 256)
 
-    reader := bufio.NewReader(job.Res.Body)
+	reader := bufio.NewReader(job.Res.Body)
 
-    file.Write([]byte("Body:\n"))
+	file.Write([]byte("Body:\n"))
 
-    for {
-        bytesRead, readerErr := reader.Read(buffer)
+	for {
+		bytesRead, readerErr := reader.Read(buffer)
 
-        file.Write(buffer[:bytesRead])
+		file.Write(buffer[:bytesRead])
 
-        if readerErr != nil {
-            if readerErr != io.EOF {
-                log.Printf("Encountered error: %s. When reading http response body", readerErr)
-                return readerErr
-            }
-            break
-        }
-    }
+		if readerErr != nil {
+			if readerErr != io.EOF {
+				log.Printf("Encountered error: %s. When reading http response body", readerErr)
+				return readerErr
+			}
+			break
+		}
+	}
 
 	return nil
 }
