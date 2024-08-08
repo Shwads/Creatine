@@ -33,7 +33,7 @@ func GlobalNode(i *int, node *ASTNode, tokens []ScriptItem) error {
 				Children: make([]*ASTNode, 0),
 			}
 
-            newNode.Children = append(newNode.Children, contentsNode)
+			newNode.Children = append(newNode.Children, contentsNode)
 
 			treeErr := NewBatchNode(i, contentsNode, tokens)
 			if treeErr != nil {

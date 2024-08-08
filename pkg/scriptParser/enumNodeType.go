@@ -4,7 +4,7 @@ type NodeType int
 
 const (
 	Global NodeType = iota
-    NewBatch
+	NewBatch
 	BatchContents
 	Batch
 	File

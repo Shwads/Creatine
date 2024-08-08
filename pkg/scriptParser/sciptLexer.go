@@ -94,19 +94,19 @@ func LexScript(executeAll bool, name string) error {
 
 	//printTokens(tokens)
 
-    root := &ASTNode{
-        Type: Global,
-        Children: make([]*ASTNode, 0),
-    }
+	root := &ASTNode{
+		Type:     Global,
+		Children: make([]*ASTNode, 0),
+	}
 
-    i := 0
+	i := 0
 
-    treeErr := GlobalNode(&i, root, tokens)
-    if treeErr != nil {
-        return treeErr
-    }
+	treeErr := GlobalNode(&i, root, tokens)
+	if treeErr != nil {
+		return treeErr
+	}
 
-    root.printTree(0)
+	root.printTree(0)
 
 	return nil
 }

@@ -2,6 +2,6 @@ package scriptParser
 
 type ASTNode struct {
 	Type     NodeType
-	Name      string
+	Name     string
 	Children []*ASTNode
 }

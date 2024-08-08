@@ -31,7 +31,7 @@ func main() {
 
 	//scriptName = flag.String("s", "", "Provide a request script file to construct requests from\n")
 
-    parseScript := flag.Bool("s", false, "Read batches from requestScript.txt")
+	parseScript := flag.Bool("s", false, "Read batches from requestScript.txt")
 
 	// FLAGS FOR PARSING REQUEST FILES
 	var fileName *string
@@ -41,19 +41,19 @@ func main() {
 	flag.Parse()
 
 	//if len(*scriptName) > 0 {
-		//scriptParseErr := scriptParser.ParseScript(*executeNonIdempotent, *scriptName)
-		//if scriptParseErr != nil {
-			//os.Exit(1)
-		//}
-		//return
+	//scriptParseErr := scriptParser.ParseScript(*executeNonIdempotent, *scriptName)
+	//if scriptParseErr != nil {
+	//os.Exit(1)
+	//}
+	//return
 	//}
 
-    if *parseScript {
-        scriptParseErr := scriptParser.LexScript(*executeNonIdempotent, SCRIPTNAME)
-        if scriptParseErr != nil {
-            os.Exit(1)
-        }
-    }
+	if *parseScript {
+		scriptParseErr := scriptParser.LexScript(*executeNonIdempotent, SCRIPTNAME)
+		if scriptParseErr != nil {
+			os.Exit(1)
+		}
+	}
 
 	if len(*fileName) > 0 {
 		requests, idempotent, parseFileErr := fileParser.ParseFile(*fileName)
