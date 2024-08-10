@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Creatine/pkg/fileParser"
+	"Creatine/pkg/yamlParser"
 	"Creatine/pkg/job"
 	"Creatine/pkg/scriptParser"
 	"flag"
@@ -27,10 +27,6 @@ func main() {
 	// FLAGS FOR PARSING REQUEST SCRIPTS
 	executeNonIdempotent := flag.Bool("ni", false, "exectute all requests including non-idempotent\n")
 
-	//var scriptName *string
-
-	//scriptName = flag.String("s", "", "Provide a request script file to construct requests from\n")
-
 	parseScript := flag.Bool("s", false, "Read batches from requestScript.txt")
 
 	// FLAGS FOR PARSING REQUEST FILES
@@ -39,14 +35,6 @@ func main() {
 	fileName = flag.String("f", "", "Provide a file to construct a request from.\n")
 
 	flag.Parse()
-
-	//if len(*scriptName) > 0 {
-	//scriptParseErr := scriptParser.ParseScript(*executeNonIdempotent, *scriptName)
-	//if scriptParseErr != nil {
-	//os.Exit(1)
-	//}
-	//return
-	//}
 
 	if *parseScript {
 		scriptParseErr := scriptParser.LexScript(*executeNonIdempotent, SCRIPTNAME)
