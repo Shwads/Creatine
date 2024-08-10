@@ -1,6 +1,27 @@
 /*
-This is incredibly hacky. Should've just used and tweaked someone elses yaml parser but I wanted to do it myself. Maybes you can write a better one in a future project
-but for now this will have to do.
+This is incredibly hacky. I should've just used and tweaked someone elses yaml parser but I wanted to do it myself.
+Maybe write a better one with a proper lexer and parser in a future project but for now this will have to do.
+*/
+
+/*
+The map structure we get at the end of this is:
+map:
+    request1:
+        method: ...
+        url: ...
+
+        headers: map[string][]string
+
+        body:
+            ....
+            ....
+    .....
+
+essentially a 'map' version of the request file where:
+    - 'request' denotes a map for an individual request
+    - string to string mappings for simple tags like 'file', 'console', 'title' or 'method'
+    - 'headers' maps strings to lists of strings
+    - 'body' maps to a single string
 */
 
 package fileParser
@@ -11,11 +32,11 @@ import (
 	"os"
 )
 
-func ParseFile(fileName string) (map[string]interface{}, bool, error) {
+func ParseFile(fileName string) (map[string]interface{}, error) {
 	file, fileOpenErr := os.Open(fileName)
 	if fileOpenErr != nil {
 		log.Printf("Encountered Error: %s. In function 'Parsefile'.", fileOpenErr)
-		return nil, false, fileOpenErr
+		return nil, fileOpenErr
 	}
 	defer file.Close()
 
@@ -27,12 +48,12 @@ func ParseFile(fileName string) (map[string]interface{}, bool, error) {
 		fileScanner.Scan()
 	}
 
-	idempotent, mainParserErr := mainParserThread(fileScanner, requests)
+	mainParserErr := mainParserThread(fileScanner, requests)
 	if mainParserErr != nil {
-		return nil, false, mainParserErr
+		return nil, mainParserErr
 	}
 
 	// printMap(requests, 0)
-	return requests, idempotent, nil
+	return requests, nil
 
 }

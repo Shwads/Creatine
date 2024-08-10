@@ -9,14 +9,21 @@ import (
 )
 
 // TODO: add safety checking for too many requests.
-// Stagger them and do them in batches
+// Stagger them and do them in batches.
 
-func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{}) (bool, error) {
+// Deal with requests in groups? Use a buffer send the requests, write the files 
+// and then process the next group of requests in the file?
 
+func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{}) error {
+
+    // We're using separate functions for the body and header tags to parse the file with state
+    // because of that we need to track whether the current line has been processed
+    // this avoids the instance where we exit the header or body parser, reach the end of the 
+    // loop and scan a new line discarding the last. Only scan new line if the current has been
+    // dealt with.
 	var currLineProcessed bool
 	var requestTag string
 
-	idempotent := true
 	requestNum := 0
 
 	for {
@@ -45,7 +52,7 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 
 				anotherRequest, headerParseErr := headerParser(fileScanner, requestMap)
 				if headerParseErr != nil {
-					return false, headerParseErr
+					return headerParseErr
 				}
 
 				currLineProcessed = !anotherRequest
@@ -63,7 +70,7 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 						requestMap["body"] = ""
 						anotherRequest, bodyParseErr := bodyParser(true, fileScanner, requestMap)
 						if bodyParseErr != nil {
-							return false, bodyParseErr
+							return bodyParseErr
 						}
 
 						// if there's another request (anotherRequest == true) then the current line
@@ -74,7 +81,7 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 						requestMap["body"] = ""
 						anotherRequest, bodyParseErr := bodyParser(false, fileScanner, requestMap)
 						if bodyParseErr != nil {
-							return false, bodyParseErr
+							return bodyParseErr
 						}
 
 						currLineProcessed = !anotherRequest
@@ -104,32 +111,27 @@ func mainParserThread(fileScanner *bufio.Scanner, requests map[string]interface{
 		// the map type.
 		if len(line) > 1 {
 			line[1] = strings.Join(line[1:], ":")
-
-			if line[0] == "method" {
-				if idempotent && (line[1] == "POST" || line[1] == "PATCH") {
-					idempotent = false
-				}
-			}
+            line[1] = strings.TrimSpace(line[1])
 
 			if requestMap, ok := requests[requestTag].(map[string]interface{}); ok {
-				requestMap[line[0]] = strings.TrimSpace(line[1])
+				requestMap[line[0]] = line[1]
 				currLineProcessed = true
 			} else {
 				// check in case requestTag has not been set
 				if requestTag == "" {
 					log.Printf("parser expects requests to begin with a 'request:' tag")
-					return false, errors.New("parser expects requests to begin with a 'request:' tag")
+					return errors.New("parser expects requests to begin with a 'request:' tag")
 				}
 
 				log.Printf("requests[requestTag] did not have expected type map[string]interface{} instead found type %T.", requests)
-				return false, errors.New(fmt.Sprintf("requests[requestTag] did not have expected type map[string]interface{} instead found type %T.", requests))
+				return errors.New(fmt.Sprintf("requests[requestTag] did not have expected type map[string]interface{} instead found type %T.", requests))
 			}
 		}
 
 		// If the current line has been dealt with fetch the next line, if that's the EOF then return
 		if currLineProcessed {
 			if !fileScanner.Scan() {
-				return idempotent, nil
+				return nil
 			}
 		}
 	}

@@ -16,7 +16,6 @@ func headerParser(fileScanner *bufio.Scanner, requests map[string]interface{}) (
 	for {
 		isTag := false
 		line := strings.Split(strings.TrimSpace(fileScanner.Text()), ":")
-		//fmt.Printf("Hi from headerParser the line is: %s\n", fileScanner.Text())
 		line[0] = strings.TrimSpace(line[0])
 
 		if len(line) > 1 && len(line) < 3 {

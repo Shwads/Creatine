@@ -36,45 +36,22 @@ func main() {
 
 	flag.Parse()
 
+    // Check for -s flag and read from the requestScript.txt
 	if *parseScript {
-		scriptParseErr := scriptParser.LexScript(*executeNonIdempotent, SCRIPTNAME)
+		scriptParseErr := scriptParser.ParseScript(*executeNonIdempotent, SCRIPTNAME)
 		if scriptParseErr != nil {
 			os.Exit(1)
 		}
 	}
 
 	if len(*fileName) > 0 {
-		requests, idempotent, parseFileErr := fileParser.ParseFile(*fileName)
+		requests, parseFileErr := fileParser.ParseFile(*fileName)
 		if parseFileErr != nil {
 			log.Printf("%s\n", parseFileErr)
 			return
 		}
 
-		var sendAll bool
-
-		if !idempotent {
-			fmt.Print("your file contains non-idempotent requests would you like to execute those too? (y/n): ")
-
-			for {
-				var input string
-				_, stdinScanErr := fmt.Scanln(&input)
-				if stdinScanErr != nil {
-					log.Printf("Encountered error: %s when scanning user input\n", stdinScanErr)
-					os.Exit(1)
-				}
-
-				if strings.ToLower(input) == "y" {
-					sendAll = true
-				} else if strings.ToLower(input) == "n" {
-					sendAll = false
-				} else {
-					fmt.Println("Please enter 'y' or 'n':")
-					continue
-				}
-			}
-		}
-
-		jobberErr := job.Jobber(requests, sendAll)
+		jobberErr := job.Jobber(requests)
 		if jobberErr != nil {
 			log.Printf("Encountered Error: %s\n", jobberErr)
 		}

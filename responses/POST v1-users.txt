@@ -1,0 +1,15 @@
+
+Request 1: POST http://localhost:8080/v1/users
+
+Status: 200 OK
+
+Headers:
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Access-Control-Allow-Origin: *
+Date: Sat, 10 Aug 2024 08:05:56 GMT
+Content-Length: 225
+Content-Type: text/plain; charset=utf-8
+Access-Control-Allow-Headers: *
+
+Body:
+{"ID":"e07dd559-806f-400a-a3f9-c00fc2ae834a","CreatedAt":"2024-08-10T17:05:56.740717Z","UpdatedAt":"2024-08-10T17:05:56.740717Z","Name":"Condoriano","ApiKey":"6ab211442b321bb8187baf8c8b27e84b8a86b4afafbeca5d73ae0b949ed1a5d8"}

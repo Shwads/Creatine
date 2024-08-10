@@ -7,8 +7,9 @@ import (
 	"strings"
 )
 
-// return true if the function encounters a request tag and the main thread should continue after bodyParser exits
-// otherwise if we get to EOF then return false to indicate that the main thread can wrap up
+// Return true if the function encounters a request tag and the main thread should continue after 
+// bodyParser exits otherwise if we get to EOF then return false to indicate that the main thread 
+// can wrap up
 func bodyParser(preserveNewlines bool, fileScanner *bufio.Scanner, requests map[string]interface{}) (bool, error) {
 	fileScanner.Scan()
 

@@ -7,14 +7,9 @@ import (
 	"os"
 )
 
-func LexScript(executeAll bool, name string) error {
-	file, fileOpenErr := os.Open(name)
-	if fileOpenErr != nil {
-		log.Printf("Encountered error: %s when opening script file: %s\n", fileOpenErr, name)
-		return fileOpenErr
-	}
-	defer file.Close()
-
+// The lexer for our script file. Iterate over lexemes and tokenise them for parsing.
+func lexScript(file *os.File) ([]ScriptItem, error) {
+    // Keep memory use small in case our script file is particularly long
 	buffer := make([]byte, 256)
 
 	fileReader := bufio.NewReader(file)
@@ -22,6 +17,7 @@ func LexScript(executeAll bool, name string) error {
 	tokens := make([]ScriptItem, 0)
 	currLexeme := make([]rune, 0)
 
+    // Keep filling the buffer until the whole file has been read
 	for {
 		numBytesRead, fileReadErr := fileReader.Read(buffer)
 
@@ -33,6 +29,7 @@ func LexScript(executeAll bool, name string) error {
 			if !isDelimiter(currRune) {
 				currLexeme = append(currLexeme, currRune)
 			} else {
+                // When we reach a delimiting character we want to process and tokenise the last lexeme
 				if len(currLexeme) > 0 {
 					if isFileName(string(currLexeme)) {
 						token := ScriptItem{
@@ -50,9 +47,12 @@ func LexScript(executeAll bool, name string) error {
 						tokens = append(tokens, token)
 					}
 
+                    // Empty the current lexeme
 					currLexeme = make([]rune, 0)
 				}
 
+                // We need to check if the current character is a token to be added 
+                // to our list before progressing
 				if isParentheses(currRune) {
 					token := ScriptItem{
 						Type: Parentheses,
@@ -66,10 +66,12 @@ func LexScript(executeAll bool, name string) error {
 
 		if fileReadErr != nil {
 			if fileReadErr != io.EOF {
-				log.Printf("Encountered error: %s. When attempting to read from file %s\n", fileReadErr, name)
-				return fileReadErr
+				log.Printf("Encountered error: %s. When attempting to read from file\n", fileReadErr)
+				return tokens, fileReadErr
 			}
 
+            // We need to make sure we're not left with unprocessed text
+            // once our Reader has completed
 			if len(currLexeme) > 0 {
 				var token ScriptItem
 
@@ -92,21 +94,5 @@ func LexScript(executeAll bool, name string) error {
 		}
 	}
 
-	//printTokens(tokens)
-
-	root := &ASTNode{
-		Type:     Global,
-		Children: make([]*ASTNode, 0),
-	}
-
-	i := 0
-
-	treeErr := GlobalNode(&i, root, tokens)
-	if treeErr != nil {
-		return treeErr
-	}
-
-	root.printTree(0)
-
-	return nil
+    return tokens, nil
 }

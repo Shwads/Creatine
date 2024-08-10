@@ -5,6 +5,8 @@ import (
 	"log"
 )
 
+// Construct the AST 
+// Separate functions help enforce state
 func GlobalNode(i *int, node *ASTNode, tokens []ScriptItem) error {
 	for *i < len(tokens) {
 		switch tokens[*i].Type {
