@@ -1,0 +1,15 @@
+
+Request 1: POST http://localhost:8080/v1/users
+
+Status: 200 OK
+
+Headers:
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Access-Control-Allow-Origin: *
+Date: Tue, 13 Aug 2024 04:21:59 GMT
+Content-Length: 227
+Content-Type: text/plain; charset=utf-8
+
+Body:
+{"ID":"a4ab38c2-901f-4e62-90d2-3317c52e9c9b","CreatedAt":"2024-08-13T13:21:59.442306Z","UpdatedAt":"2024-08-13T13:21:59.442306Z","Name":"Wong Kar-Wai","ApiKey":"4d2353609fdd62256213f099476b81b167620182f0cc4c3e4710c82a1bd73872"}

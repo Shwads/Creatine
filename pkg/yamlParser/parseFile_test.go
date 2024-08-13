@@ -6,7 +6,7 @@ import (
 )
 
 func TestParseFile(t *testing.T) {
-	requests, _, parseFileErr := ParseFile("tests/testFile2.yml")
+	requests, parseFileErr := ParseFile("tests/testFile2.yml")
 	if parseFileErr != nil {
 		t.Fatal(parseFileErr)
 	}

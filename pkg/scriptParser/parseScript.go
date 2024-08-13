@@ -38,5 +38,12 @@ func ParseScript(executeAll bool, name string) error {
 
 	root.printTree(0)
 
+    batches, semAnErr := semAn(root)
+    if semAnErr != nil {
+        return semAnErr
+    }
+
+    printBatches(batches)
+
 	return nil
 }

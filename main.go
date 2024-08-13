@@ -59,47 +59,21 @@ func main() {
 		return
 	}
 
+    // Default request functionality
 	*method = strings.ToUpper(*method)
-
-	switch *method {
-	case "GET":
-		fmt.Println("GET method requested.")
-		fmt.Println("There's nothing here yet m8, get to it")
-		break
-	case "POST":
-		fmt.Println("POST method requested.")
-		fmt.Println("There's nothing here yet m8, get to it")
-		break
-	case "PATCH":
-		fmt.Println("PATCH method requested.")
-		fmt.Println("There's nothing here yet m8, get to it")
-		break
-	case "PUT":
-		fmt.Println("PUT method requested.")
-		fmt.Println("There's nothing here yet m8, get to it")
-		break
-	case "DELETE":
-		fmt.Println("DELETE method requested.")
-		fmt.Println("There's nothing here yet m8, get to it")
-		break
-	default:
-		fmt.Println("Please use one of the following supported methods:")
-		fmt.Print("GET\nPOST\nPATCH\nPUT\nDELETE\n")
-		return
-	}
 
 	suppliedArgs := flag.Args()
 
 	if len(suppliedArgs) < 1 {
 		fmt.Println("Please prove a URL to which to send the request.")
-		return
+        os.Exit(1)
 	}
 
 	url, urlParseErr := url.Parse(suppliedArgs[0])
 	if urlParseErr != nil {
 		fmt.Printf("Encountered error: %s\n", urlParseErr)
 		fmt.Println("Please provide a valid URL")
-		return
+        os.Exit(1)
 	}
 
 	job := job.Job{
@@ -110,6 +84,8 @@ func main() {
 		Method:         *method,
 	}
 
-	job.ProcessJob()
-
+    sendRequestErr := job.SendRequest()
+    if sendRequestErr != nil {
+        os.Exit(1)
+    }
 }

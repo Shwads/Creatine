@@ -1,0 +1,10 @@
+request:
+  title: GET User 2
+
+  console: true
+
+  method: GET
+  url: http://localhost:8080/v1/users
+
+  headers:
+  Authorization: ApiKey 105e12bc42a29e373150e9ad4e5efb4cd6c8823c13a5e00d7e1a48f41f4b5631

@@ -14,7 +14,15 @@ func (job Job) printToConsole() error {
 	fmt.Println("=======================================================================")
 
 	if job.PrintToFile {
-		file, fileOpenErr := os.Open(fmt.Sprintf("responses/Request-%d:%s.txt", job.RequestNum, job.Method))
+		var fileName string
+
+		if job.Title != "" {
+			fileName = fmt.Sprintf("responses/%s.txt", job.Title)
+		} else {
+			fileName = fmt.Sprintf("responses/Request-%d:%s.txt", job.RequestNum, job.Method)
+		}
+
+		file, fileOpenErr := os.Open(fileName)
 		if fileOpenErr != nil {
 			log.Printf("Encountered error: %s. On attempted file open.\n", fileOpenErr)
 			return fileOpenErr

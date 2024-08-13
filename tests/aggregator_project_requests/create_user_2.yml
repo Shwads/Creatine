@@ -2,6 +2,7 @@ request:
   title: Create User 2
 
   file: true
+  console: true
 
   method: POST
   url: http://localhost:8080/v1/users

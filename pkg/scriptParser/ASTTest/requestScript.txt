@@ -1,0 +1,18 @@
+this_is_a_batch (
+    batch_contents1.yml
+    batch_contents2.yml
+    batch_contents3.yml
+)
+
+this_is_also_a_batch (
+    batch_contents4.yml
+    batch_contents5.yml
+    batch_contents6.yml
+)
+
+this_is_an_empty_batch ()
+
+last_batch (
+    this_is_a_batch
+    this_is_also_a_batch
+)
