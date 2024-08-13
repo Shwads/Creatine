@@ -1,0 +1,15 @@
+
+Request 2: GET http://localhost:8080/v1/users
+
+Status: 201 Created
+
+Headers:
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Access-Control-Allow-Origin: *
+Date: Tue, 13 Aug 2024 06:54:30 GMT
+Content-Length: 225
+Content-Type: text/plain; charset=utf-8
+
+Body:
+{"ID":"5d1c3bdd-d58e-46f2-affc-b627d2ae7236","CreatedAt":"2024-08-03T00:22:39.850151Z","UpdatedAt":"2024-08-03T00:22:39.850151Z","Name":"Condoriano","ApiKey":"5b45b5322e0df0ed1c7088ca7050be1c368df9af70eb736a7d0c7746a1ddf2dc"}
