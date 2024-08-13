@@ -1,0 +1,15 @@
+
+Request 1: GET http://localhost:8080/v1/users
+
+Status: 201 Created
+
+Headers:
+Content-Length: 231
+Content-Type: text/plain; charset=utf-8
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Access-Control-Allow-Origin: *
+Date: Tue, 13 Aug 2024 06:46:51 GMT
+
+Body:
+{"ID":"f787b790-7217-4a88-93ab-a90aa1fef461","CreatedAt":"2024-08-13T13:21:55.039298Z","UpdatedAt":"2024-08-13T13:21:55.039298Z","Name":"Silvers Rayleigh","ApiKey":"105e12bc42a29e373150e9ad4e5efb4cd6c8823c13a5e00d7e1a48f41f4b5631"}

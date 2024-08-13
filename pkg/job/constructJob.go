@@ -34,7 +34,6 @@ func ConstructJob(requests map[string]interface{}) ([]Job, error) {
 			if verbose, ok := requestMap["verbose"]; ok {
 				if verbose, ok := verbose.(string); ok {
 					nextJob.Verbose = strings.ToLower(verbose) == "true"
-					fmt.Printf("Found val %s for verbosity\n", verbose)
 				} else {
 					errString := fmt.Sprintf("did not find expected type string for verbosity instead found %T\n", verbose)
 					log.Printf(errString)
@@ -42,7 +41,6 @@ func ConstructJob(requests map[string]interface{}) ([]Job, error) {
 				}
 			} else {
 				nextJob.Verbose = true
-				fmt.Printf("Set verbose to %t\n", nextJob.Verbose)
 			}
 
 			if printToFile, ok := requestMap["file"]; ok {

@@ -1,0 +1,17 @@
+request:
+  console: true
+
+  method: GET
+  url: http://localhost:8080/v1/users
+
+  headers:
+    Authorization: ApiKey 4d2353609fdd62256213f099476b81b167620182f0cc4c3e4710c82a1bd73872
+
+request:
+  console: true
+
+  method: GET
+  url: http://localhost:8080/v1/users
+
+  headers:
+    Authorization: ApiKey 105e12bc42a29e373150e9ad4e5efb4cd6c8823c13a5e00d7e1a48f41f4b5631

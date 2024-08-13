@@ -7,7 +7,7 @@ func Jobber(requests map[string]interface{}) error {
 		return jobListErr
 	}
 
-	//PrintJobList(jobList)
+	PrintJobList(jobList)
 
 	for _, job := range jobList {
 		job.SendRequest()
